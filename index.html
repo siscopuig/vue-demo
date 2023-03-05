@@ -1,0 +1,120 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3.0.2"></script>
+    <style>
+        .box {
+            padding: 25px;
+            width: 75px;
+            text-align: center;
+            background: #ddd;
+            margin: 10px;
+            display: inline-block;
+        }
+        p, h3, ul {
+            margin: 0;
+            padding: 0;
+        }
+        li {
+            list-style-type: none;
+            /* background: #fff; */
+            margin: 20px auto;
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        li.fav {
+            /* margin: 20px; */
+            background: #eee;
+        }
+        .fav {
+            background: #874a4a;
+            border: 3px red solid;
+            /* margin: 20px; */
+        }
+        
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <h1>Vue Demo</h1>
+
+    <div id="app">
+        <!-- Vue component properties -->
+
+        <!-- Conditional rendering -->
+        <div v-if="showValues">
+            <p>title: {{ title }}</p>
+            <p>age: {{ age }}</p>
+        </div>
+        <button @click="toggleShowValues">
+            <!-- show values if property showValues is false -->
+            <span v-if="!showValues">Show values</span>
+            <!-- show values if property showValues is true -->
+            <span v-if="showValues">Hide values</span>
+            <!-- another way using else -->
+            <!-- <span v-else>Hide values</span> -->
+        </button>
+        <!-- Using show changes css only -->
+        <div v-show="showValues">Currently showing values</div>
+
+        <!-- React to an event by clicking -->
+        <!-- v-on:click & @click work the same -->
+        <!-- Increase age number by clicking, age is a property of component -->
+        <button v-on:click="age++">Increase age property</button>
+        <!-- Decrease age property -->
+        <button v-on:click="age--">Decrease age property</button>
+
+        <!-- Create property and assign value when click event -->
+        <div @click="title='something else'">Click me to change value for something else</div>
+        <!-- Invoke function inside component -->
+        <div @click="changeTitle">Click me to change title by method component</div>
+        <!-- Change title value by passing value as argument on method component -->
+        <div @click="changeTitleByPassingValue('value passed as argument')">Click me to change title by passing argument on method component</div>
+
+        <br>
+        <!-- Mouse events -->
+        <!-- $event object when passing more than parameter -->
+        <div class="box" @mouseover="handleEvent($event, 5)">mouseover (enter)</div>
+        <div class="box" @mouseleave="handleEvent">mouseleave</div>
+        <div class="box" @dblclick="handleEvent">double click</div>
+        <div class="box" @mousemove="handleEventMouseMove">mouse position: {{ x }} {{ y }}</div>
+
+        <br>
+        <!-- Display an array of book elements -->
+        <div v-if="showBooks">
+            <li v-for="book in books" v-bind:class="{fav: book.isFav}" v-on:click="toggleBookFav(book)">
+                <img v-bind:src="book.img" v-bind:alt="book.title">
+                <h3>title: {{book.title}}</h3>
+                <p>author: {{ book.author }}</p>                
+            </li>
+        </div>
+
+        <!--  
+        computed is a property that allows you to define a function that computes a 
+        value based on other properties in your Vue instance's data object. 
+        -->
+        <h2>Filter books by favorites</h2>
+        <div v-if="showBooks">
+            <li v-for="book in filteredBooks">
+                <img v-bind:src="book.img" v-bind:alt="book.title">
+                <h3>title: {{book.title}}</h3>
+                <p>author: {{ book.author }}</p>                
+            </li>
+        </div>
+
+        <br>
+        <!-- Attribute binding - binding dynamic values to html attributes -->
+        <!-- whatever is inside href="" is dynamic, -->
+        <a v-bind:href="url">Best site ever</a>
+        <!-- another sysntax to bind (shorthand) -->
+        <!-- <a :href="">Best site ever</a> -->
+
+    </div>
+</body>
+<script src="app.js"></script>
+</html>
